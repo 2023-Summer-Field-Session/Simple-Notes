@@ -16,6 +16,7 @@ import android.print.PrintAttributes
 import android.print.PrintManager
 import android.text.method.ArrowKeyMovementMethod
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.util.TypedValue
 import android.view.ActionMode
 import android.view.Gravity
@@ -86,6 +87,14 @@ class MainActivity : SimpleActivity() {
     private lateinit var searchNextBtn: ImageView
     private lateinit var searchClearBtn: ImageView
 
+    companion object {
+        init {
+            System.loadLibrary("pro")
+        }
+
+        external fun getHelloWorldString(): String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
@@ -123,6 +132,9 @@ class MainActivity : SimpleActivity() {
             val dialogText = getString(R.string.upgraded_from_free_notes)
             ConfirmationDialog(this, dialogText, 0, R.string.ok, 0, false) {}
         }
+
+        // in order to see the actual log results, need to filter to "CPP" in the search bar; this app creates a lot of buffer fakes due to needing typing input
+        Log.d("CPP.MAINACTIVITY", getHelloWorldString())
     }
 
     override fun onResume() {
